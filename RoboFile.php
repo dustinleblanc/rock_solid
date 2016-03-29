@@ -107,10 +107,33 @@ class RoboFile extends \Robo\Tasks
     $this->taskCodecept(self::CODECEPT_BIN)->run();
   }
 
-  public function fixPerms()
+  /**
+   * Apply basic permissions to Drupal site.
+   *
+   * @see https://www.drupal.org/node/244924
+   *
+   * @param string $group
+   *   User group to own site files.
+   *
+   * @throws \Robo\Exception\TaskException
+   */
+  public function fixPerms($group = 'www-data')
   {
-    
+    $this->taskExecStack()
+         ->dir("web")
+         ->exec("chown -R $(whoami):{$group} .")
+         ->exec("find . -type d -exec chmod u=rwx,g=rx,o= '{}' \;")
+         ->exec("find . -type f -exec chmod u=rw,g=r,o= '{}' \;")
+         ->run();
+
+    $this->taskExecStack()
+         ->dir("web/sites")
+         ->exec("find . -type d -name files -exec chmod ug=rwx,o= '{}' \;")
+         ->exec("for d in ./*/files; do    find \$d -type d -exec chmod ug=rwx,o= '{}' \;;    find \$d -type f -exec chmod ug=rw,o= '{}' \;; done")
+         ->run();
+
   }
+
   /**
    * Set all of our defaults for Drush tasks so we don't have to repeat boilerplate.
    *
