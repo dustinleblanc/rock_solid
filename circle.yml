@@ -1,0 +1,32 @@
+machine:
+  environment:
+    SERVER: drupal.local
+  php:
+    version: 5.6.14
+  hosts:
+    SERVER: 127.0.0.1
+
+dependencies:
+  pre:
+    - composer config --global github-oauth.github.com $GITHUB_TOKEN
+    - cp $HOME/$CIRCLE_PROJECT_REPONAME/src/circle.conf /etc/apache2/sites-available/default
+    - sudo sed -e "s?%HOME%?$(pwd)?g" --in-place /etc/apache2/sites-available/default
+    - sudo sed -e "s?%PROJECT_DIR%?web?g" --in-place /etc/apache2/sites-available/default
+    - echo "sendmail_path=/bin/true" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+    - sudo a2enmod rewrite
+    - sudo service apache2 restart
+
+  override:
+    - composer install --prefer-dist
+  post:
+    - robo install test
+
+test:
+  override:
+      - bin/codecept run
+
+deployment:
+  pantheon:
+    branch: master
+    commands:
+      - robo deploy
