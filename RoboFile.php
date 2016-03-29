@@ -39,8 +39,8 @@ class RoboFile extends \Robo\Tasks
   public function build()
   {
     $this->taskMirrorDir([
-        'src/modules' => 'web/modules/custom',
-        'src/themes' => 'web/themes/custom',
+      'src/modules' => 'web/modules/custom',
+      'src/themes' => 'web/themes/custom',
     ])->run();
     $this->_copy('src/settings.php', 'web/sites/default/settings.php');
     if (getenv('PROD_DEST') == 'pantheon') {
@@ -90,13 +90,13 @@ class RoboFile extends \Robo\Tasks
       $this->build();
     }
     $this->buildDrushTask()
-        ->siteName(getenv('SITE_NAME'))
-        ->siteMail(getenv('SITE_MAIL'))
-        ->locale(getenv('LOCALE'))
-        ->accountMail(getenv('ADMIN_MAIL'))
-        ->accountName(getenv('ADMIN_NAME'))
-        ->siteInstall(getenv('SITE_PROFILE'))
-        ->run();
+         ->siteName(getenv('SITE_NAME'))
+         ->siteMail(getenv('SITE_MAIL'))
+         ->locale(getenv('LOCALE'))
+         ->accountMail(getenv('ADMIN_MAIL'))
+         ->accountName(getenv('ADMIN_NAME'))
+         ->siteInstall(getenv('SITE_PROFILE'))
+         ->run();
   }
 
   /**
