@@ -17,3 +17,5 @@ web/sites/*/services.yml
 .env
 .built
 .vagrant
+
+tests/_output/*
