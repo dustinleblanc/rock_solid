@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/dustinleblanc/rock_solid.png?label=ready&title=Ready)](https://waffle.io/dustinleblanc/rock_solid)
 ## About
 
 This project utilizes the [pantheon-systems/circle-scripts](https://github.com/pantheon-systems/circle-scripts) project in order to achieve the following things:
